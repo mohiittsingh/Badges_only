@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Wobble Zone! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: bounce 2s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .emoji {
+            font-size: 6rem;
+            display: inline-block;
+            animation: spin 3s linear infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .emoji:hover {
+            animation: wobble 0.5s ease-in-out;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: white;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .button {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            margin: 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        .button:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            font-size: 3rem;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            font-size: 2.5rem;
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .shape:nth-child(3) {
+            font-size: 3.5rem;
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(4) {
+            font-size: 2rem;
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 1.5s;
+        }
+
+        .shape:nth-child(5) {
+            font-size: 4rem;
+            top: 50%;
+            left: 5%;
+            animation-delay: 0.5s;
+        }
+
+        .shape:nth-child(6) {
+            font-size: 2.8rem;
+            top: 40%;
+            right: 8%;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
+        }
+
+        .explosion {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .message {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            min-height: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape">🎈</div>
+        <div class="shape">⭐</div>
+        <div class="shape">🎉</div>
+        <div class="shape">🎨</div>
+        <div class="shape">🚀</div>
+        <div class="shape">🎪</div>
+    </div>
+
+    <div class="container">
+        <h1>Welcome to the Wobble Zone!</h1>
+        <div class="emoji" id="mainEmoji">🎉</div>
+        <p class="subtitle">Where fun meets chaos!</p>
+        <button class="button" onclick="surpriseMe()">Click for Magic! ✨</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const emojis = ['🎉', '🎊', '🎈', '🎁', '🎂', '🎪', '🎨', '🎭', '🎸', '🎺', '🎮', '🎯', '🚀', '🦄', '🌈', '⭐', '💫', '✨'];
+        const messages = [
+            'You are AWESOME! 🌟',
+            'Keep being amazing! 💪',
+            'You just made my day! 😄',
+            'HIGH FIVE! 🙌',
+            'You rock! 🎸',
+            'Legend status achieved! 🏆',
+            'Absolutely fantastic! 🎉',
+            'You\'re on fire! 🔥'
+        ];
+
+        const mainEmoji = document.getElementById('mainEmoji');
+        const messageEl = document.getElementById('message');
+
+        // Change emoji on hover
+        mainEmoji.addEventListener('click', () => {
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            mainEmoji.textContent = randomEmoji;
+            createExplosion(event.clientX, event.clientY);
+        });
+
+        function surpriseMe() {
+            // Show random message
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            messageEl.textContent = randomMessage;
+            messageEl.style.animation = 'bounce 0.5s ease-in-out';
+            
+            // Change emoji
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            mainEmoji.textContent = randomEmoji;
+            
+            // Create multiple explosions
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    createExplosion(x, y);
+                }, i * 100);
+            }
+
+            // Reset animation
+            setTimeout(() => {
+                messageEl.style.animation = '';
+            }, 500);
+        }
+
+        function createExplosion(x, y) {
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion';
+            explosion.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            explosion.style.left = x + 'px';
+            explosion.style.top = y + 'px';
+            explosion.style.fontSize = '3rem';
+            explosion.style.animation = 'explode 1s ease-out';
+            document.body.appendChild(explosion);
+
+            setTimeout(() => {
+                explosion.remove();
+            }, 1000);
+        }
+
+        // Random emoji changes
+        setInterval(() => {
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            mainEmoji.textContent = randomEmoji;
+        }, 3000);
+
+        // Add click explosions anywhere on the page
+        document.body.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('button') && !e.target.classList.contains('emoji')) {
+                createExplosion(e.clientX, e.clientY);
+            }
+        });
+    </script>
+</body>
+</html>
